@@ -29,12 +29,15 @@ export default function Home() {
     mountRef.current.appendChild(renderer.domElement);
 
     // 创建粒子
-    const particleCount = 300000;
+    const particleCount = 260000;
     const positions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(Math.random() * 2 - 1);
-      const radius = Math.pow(Math.random(), 0.7) * 1500;
+      
+      // 让中心点不会过于密集
+      const radius = 300 + (1500 - 300) * Math.pow(Math.random(), 1.5); 
+    
       positions.set(
         [
           radius * Math.sin(phi) * Math.cos(theta),
@@ -44,15 +47,15 @@ export default function Home() {
         i * 3
       );
     }
-
     const particles = new THREE.BufferGeometry();
     particles.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-
+    // 改变粒子大小，透明度
     const material = new THREE.PointsMaterial({
-      size: 0.3,
+      size: 0.1,
       color: 0xffffff,
-      opacity: 0.6,
+      opacity: 0.5,
       transparent: true,
+      sizeAttenuation: true,
     });
     const particleSystem = new THREE.Points(particles, material);
     scene.add(particleSystem);
@@ -60,6 +63,7 @@ export default function Home() {
     let mouseVelocity = 0;
 
     // 监听鼠标移动，改变光标
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let lastMoveTime = Date.now();
     window.addEventListener("mousemove", (e) => {
       const speed = Math.abs(e.movementX) + Math.abs(e.movementY);
