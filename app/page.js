@@ -1,15 +1,13 @@
+// app/page.js
 "use client";
 import React, { useEffect, useRef } from 'react';
 import Head from 'next/head';
 import * as THREE from 'three';
 
 export default function Home() {
-  const mountRef = useRef<HTMLDivElement | null>(null);
+  const mountRef = useRef(null);
 
   useEffect(() => {
-    if (!mountRef.current) return;
-
-    const mount = mountRef.current; // ✅ 复制 ref，确保 cleanup 仍然是同一个 DOM
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
     camera.position.set(0, 0, 1500);
@@ -17,7 +15,7 @@ export default function Home() {
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000);
-    mount.appendChild(renderer.domElement); // ✅ 使用局部变量 mount
+    mountRef.current?.appendChild(renderer.domElement);
 
     const particleCount = 300000;
     const positions = new Float32Array(particleCount * 3);
@@ -59,11 +57,8 @@ export default function Home() {
     }
     animate();
 
-    // ✅ 修正 Cleanup 逻辑，避免 `mountRef.current` 变更时错误
     return () => {
-      if (mount) { // ✅ 确保 cleanup 时 mount 仍然存在
-        mount.removeChild(renderer.domElement);
-      }
+      mountRef.current?.removeChild(renderer.domElement);
       renderer.dispose();
     };
   }, []);
