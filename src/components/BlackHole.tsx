@@ -66,6 +66,22 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div ref={mountRef} style={{ width: '100vw', height: '100vh', position: 'fixed', backgroundColor: '#000' }} />
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        color: '#fff',
+        fontSize: '2.5rem',
+        fontWeight: 'bold',
+        textShadow: '2px 2px 5px rgba(0,0,0,0.7)',
+        textAlign: 'center',
+        zIndex: 10,
+      }}>
+        Shengtao.Space  {/* ✅ 去掉空格 */}
+        <p style={{ fontSize: '1rem', opacity: 0.8 }}>Driven by Everything in Vagary</p>
+      </div>
     </>
   );
+  
 }

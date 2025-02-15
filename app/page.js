@@ -82,7 +82,7 @@ export default function Home() {
         textAlign: 'center',
         zIndex: 10,
       }}>
-        Shengtao. Space
+        Shengtao.Space
         <p style={{ fontSize: '1rem', opacity: 0.8 }}>Driven by Everything in Vagary</p>
       </div>
     </>
