@@ -2,18 +2,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import * as THREE from "three";
-import { motion, AnimatePresence } from "framer-motion"; // 添加 Framer Motion 处理动画
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const mountRef = useRef(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showSecondPage, setShowSecondPage] = useState(false);
-  const [fadeOut, setFadeOut] = useState(false); // 控制首页文字淡出
+  const [fadeOut, setFadeOut] = useState(false);
   const [cursorStyle, setCursorStyle] = useState("default");
 
   useEffect(() => {
     if (!mountRef.current) return;
 
+    // 创建场景和相机
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -23,21 +24,19 @@ export default function Home() {
     );
     camera.position.set(0, 0, 1500);
 
+    // 创建渲染器
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000);
     mountRef.current.appendChild(renderer.domElement);
 
-    // 创建粒子
-    const particleCount = 260000;
+    // 创建粒子系统
+    const particleCount = 170000;
     const positions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(Math.random() * 2 - 1);
-      
-      // 让中心点不会过于密集
-      const radius = 300 + (1500 - 300) * Math.pow(Math.random(), 1.5); 
-    
+      const radius = 300 + (1500 - 300) * Math.pow(Math.random(), 1.5);
       positions.set(
         [
           radius * Math.sin(phi) * Math.cos(theta),
@@ -47,9 +46,9 @@ export default function Home() {
         i * 3
       );
     }
+       // 改变粒子大小，透明度
     const particles = new THREE.BufferGeometry();
     particles.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    // 改变粒子大小，透明度
     const material = new THREE.PointsMaterial({
       size: 0.1,
       color: 0xffffff,
@@ -61,44 +60,46 @@ export default function Home() {
     scene.add(particleSystem);
 
     let mouseVelocity = 0;
-
-    // 监听鼠标移动，改变光标
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let lastMoveTime = Date.now();
-    window.addEventListener("mousemove", (e) => {
+
+    // 处理鼠标移动事件
+    const handleMouseMove = (e) => {
       const speed = Math.abs(e.movementX) + Math.abs(e.movementY);
       mouseVelocity = Math.min(speed * 0.02, 2);
       particleSystem.rotation.x += e.movementY * 0.0005;
       particleSystem.rotation.y += e.movementX * 0.0005;
-      setCursorStyle("pointer"); // 移动时变成可点击的光标
+      setCursorStyle("pointer");
       lastMoveTime = Date.now();
-    });
+    };
 
-    // 监听鼠标点击事件，触发过渡动画
-    window.addEventListener("mousedown", (e) => {
+    // 处理鼠标点击事件，触发页面转换
+    const handleMouseDown = (e) => {
       if (e.button === 0) {
-        setFadeOut(true); // 让文字开始淡出
+        setFadeOut(true);
         setTimeout(() => {
           setIsTransitioning(true);
-        }, 100); // 0.1秒后正式触发粒子动画
+        }, 100);
         setTimeout(() => {
-          setShowSecondPage(true); // 0.7秒后切换到第二个页面
+          setShowSecondPage(true);
         }, 700);
       }
-    });
+    };
 
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousedown", handleMouseDown);
+
+    // 动画循环
     function animate() {
       if (isTransitioning) {
         particleSystem.scale.x += 0.1;
         particleSystem.scale.y += 0.1;
         particleSystem.scale.z += 0.1;
-        material.opacity -= 0.005; // 透明度降低
+        material.opacity -= 0.005;
       } else {
         particleSystem.rotation.x += 0.0005 + mouseVelocity * 0.0002;
         particleSystem.rotation.y += 0.001 + mouseVelocity * 0.0004;
         particleSystem.rotation.z += 0.0003 + mouseVelocity * 0.0001;
       }
-
       material.size = 0.3 + mouseVelocity * 0.2;
       material.opacity = Math.max(0, material.opacity);
       mouseVelocity *= 0.95;
@@ -107,13 +108,18 @@ export default function Home() {
     }
     animate();
 
+    // 清理函数，移除事件监听器和释放资源
     return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
       mountRef.current?.removeChild(renderer.domElement);
       renderer.dispose();
+      material.dispose();
+      particles.dispose();
+      scene.remove(particleSystem);
     };
   }, [isTransitioning]);
 
-  // 切换到第二页
   if (showSecondPage) {
     return <SecondPage />;
   }
@@ -122,10 +128,7 @@ export default function Home() {
     <>
       <Head>
         <title>shengtao.space | Home</title>
-        <meta
-          name="description"
-          content="Driven by Everything in Vagary with Mouse Interaction"
-        />
+        <meta name="description" content="Driven by Everything in Vagary with Mouse Interaction" />
       </Head>
       <div
         ref={mountRef}
@@ -142,7 +145,7 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.7 } }} // 让文字淡出
+            exit={{ opacity: 0, transition: { duration: 0.7 } }}
             style={{
               position: "absolute",
               top: "50%",
@@ -165,6 +168,7 @@ export default function Home() {
     </>
   );
 }
+
 
 // 这是第二个界面
 function SecondPage() {
@@ -210,10 +214,35 @@ function SecondPage() {
       {/* 主要介绍部分 */}
       <div style={{ textAlign: "center", maxWidth: "800px", marginTop: "5rem" }}>
         <h1 style={{ fontSize: "2.8rem", fontWeight: "bold", lineHeight: "1.3" }}>
-        Shaping the unseen into presence<br /> 
-        Forging order from chaos
+        Forging order from chaos<br /> 
+        Shaping the unseen into presence
     
         </h1>
+
+        {/* 叠加的视频背景 */}
+  <video
+    autoPlay
+    loop
+    muted
+    playsInline
+    style={{
+      position: "absolute",
+      top: "23%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "100%",
+      maxWidth: "860px",
+      zIndex: 1, // 让它在文字背后
+      opacity: 0.3, // 透明度，确保不影响可读性
+      borderRadius: "10px", // 可选，给视频加一点弧度
+      maskImage: "linear-gradient(to bottom, black 10%, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
+    WebkitMaskImage: "linear-gradient(to bottom, black 10%, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
+    }}
+  >
+    <source src="/video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
         <div
           style={{
             display: "flex",
@@ -232,7 +261,7 @@ function SecondPage() {
         style={{
           display: "flex",
           justifyContent: "center",
-          marginTop: "2rem",
+          marginTop: "6rem",
           gap: "1rem",
         }}
       >
