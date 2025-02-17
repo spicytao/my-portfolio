@@ -60,7 +60,6 @@ export default function Home() {
     scene.add(particleSystem);
 
     let mouseVelocity = 0;
-    let lastMoveTime = Date.now();
 
     // 处理鼠标移动事件
     const handleMouseMove = (e) => {
@@ -69,7 +68,6 @@ export default function Home() {
       particleSystem.rotation.x += e.movementY * 0.0005;
       particleSystem.rotation.y += e.movementX * 0.0005;
       setCursorStyle("pointer");
-      lastMoveTime = Date.now();
     };
 
     // 处理鼠标点击事件，触发页面转换
