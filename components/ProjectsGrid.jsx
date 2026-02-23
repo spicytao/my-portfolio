@@ -48,19 +48,19 @@ const projects = [
     title: "Soft Exoskeleton", 
     img: "/hero/25.jpg", 
     href: "/projects/25",
-    desc: "A metal mesh sleeve tuned through density and directional tension, holding wave-like ribs that animate with movement and moiré." 
+    desc: "A metal mesh sleeve tuned through density and directional tension, forming wave-like ribs." 
   },
   { 
     title: "Cocooning", 
     img: "/hero/26.jpg", 
     href: "/projects/26",
-    desc: "A suspended gauze enclosure reframes “self-binding” as an active, gentle threshold—softening boundaries through touch and silhouette." 
+    desc: "A suspended gauze enclosure reframes “self-binding” as an active, gentle threshold." 
   },
   { 
-    title: "Ritual Wings", 
+    title: "Ritual Wind", 
     img: "/hero/27.jpg", 
     href: "/projects/27",
-    desc: "A performance garment that extends the body into space—fringe and drape turning gesture into afterimage, wind, and shadow." 
+    desc: "A performance garment that uses layered drape and fringe to extend the dancer’s body into space." 
   },
   { 
     title: "Framed Curvature", 
@@ -84,19 +84,19 @@ const projects = [
     title: "Air Vessel", 
     img: "/hero/28.jpg", 
     href: "/projects/28",
-    desc: "An inflatable vase where emptiness becomes structure: a flat pattern stands into volume in one breath, then returns to near-absence." 
+    desc: "An inflatable vase where emptiness becomes structure: a flat pattern stands into volume in one breath." 
   },
   { 
     title: "Over Growth", 
     img: "/hero/29.jpg", 
     href: "/projects/29",
-    desc: "A repeatable woven module accumulates into a self-supporting column—where porosity, compression, and daylight co-author the form." 
+    desc: "A repeatable woven module accumulates into a self-supporting column, shaped by compression and daylight." 
   },
   { 
     title: "Wind's Skirt", 
     img: "/hero/30.jpg", 
     href: "/projects/30",
-    desc: "A pleated cloth hung between trees that makes wind legible—tension sets the frame, while gravity and breeze continually redraw the drape." 
+    desc: "Pleated cloth between trees makes wind visible through drifting folds." 
   },
   { 
     title: "The Fading Herald", 
