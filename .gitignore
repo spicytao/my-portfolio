@@ -1,5 +1,1 @@
-/node_modules
-.next
-.vercel
-.DS_Store
-package-lock.json
+node_modules

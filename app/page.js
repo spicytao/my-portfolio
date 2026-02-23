@@ -1,335 +1,256 @@
+// app/page.js
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import Head from "next/head";
 import * as THREE from "three";
 import { motion, AnimatePresence } from "framer-motion";
+import MainPage from "../components/MainPage";
 
 export default function Home() {
   const mountRef = useRef(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [showSecondPage, setShowSecondPage] = useState(false);
+  const [explode, setExplode] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
-  const [cursorStyle, setCursorStyle] = useState("default");
+  const [showMain, setShowMain] = useState(false);
+  const [pageOpacity, setPageOpacity] = useState(1);
+  const [ready, setReady] = useState(false);
 
+  // 第一次挂载时判断：是不是 /#work，如果是，就直接进 MainPage
   useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash === "#work") {
+      setShowMain(true);
+      setPageOpacity(0);
+    }
+    setReady(true);
+  }, []);
+
+  // Three.js 粒子 intro（只有在 intro 状态才运行）
+  useEffect(() => {
+    if (!ready) return;
+    if (showMain) return;
     if (!mountRef.current) return;
 
-    // 创建场景和相机
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
       0.1,
-      3000
+      4000
     );
     camera.position.set(0, 0, 1500);
 
-    // 创建渲染器
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
     mountRef.current.appendChild(renderer.domElement);
 
-    // 创建粒子系统
-    const particleCount = 170000;
-    const positions = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount; i++) {
+    // 粒子
+    const count = 120000;
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(Math.random() * 2 - 1);
-      const radius = 300 + (1500 - 300) * Math.pow(Math.random(), 1.5);
-      positions.set(
-        [
-          radius * Math.sin(phi) * Math.cos(theta),
-          radius * Math.sin(phi) * Math.sin(theta),
-          radius * Math.cos(phi),
-        ],
-        i * 3
-      );
+      const r = 300 + (1500 - 300) * Math.pow(Math.random(), 1.5);
+      positions[i * 3 + 0] = r * Math.sin(phi) * Math.cos(theta);
+      positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      positions[i * 3 + 2] = r * Math.cos(phi);
     }
-       // 改变粒子大小，透明度
-    const particles = new THREE.BufferGeometry();
-    particles.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+
     const material = new THREE.PointsMaterial({
-      size: 0.1,
+      size: 0.15,
       color: 0xffffff,
-      opacity: 0.5,
+      opacity: 0.85,
       transparent: true,
       sizeAttenuation: true,
+      depthWrite: false,
     });
-    const particleSystem = new THREE.Points(particles, material);
-    scene.add(particleSystem);
 
-    let mouseVelocity = 0;
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
 
-    // 处理鼠标移动事件
-    const handleMouseMove = (e) => {
-      const speed = Math.abs(e.movementX) + Math.abs(e.movementY);
-      mouseVelocity = Math.min(speed * 0.02, 2);
-      particleSystem.rotation.x += e.movementY * 0.0005;
-      particleSystem.rotation.y += e.movementX * 0.0005;
-      setCursorStyle("pointer");
+    // 鼠标交互
+    const targetRot = new THREE.Vector2(0, 0);
+    const currentRot = new THREE.Vector2(0, 0);
+    let mouseActive = false;
+
+    const onPointerMove = (e) => {
+      const nx = e.clientX / window.innerWidth - 0.5;
+      const ny = e.clientY / window.innerHeight - 0.5;
+
+      targetRot.set(ny * 0.9, nx * 1.2);
+      mouseActive = true;
+
+      camera.position.x = nx * 120;
+      camera.position.y = -ny * 80;
+      camera.lookAt(0, 0, 0);
     };
+    window.addEventListener("pointermove", onPointerMove);
 
-    // 处理鼠标点击事件，触发页面转换
-    const handleMouseDown = (e) => {
-      if (e.button === 0) {
-        setFadeOut(true);
-        setTimeout(() => {
-          setIsTransitioning(true);
-        }, 100);
-        setTimeout(() => {
-          setShowSecondPage(true);
-        }, 700);
-      }
+    const onResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
     };
+    window.addEventListener("resize", onResize);
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mousedown", handleMouseDown);
+    let explodeScale = 1;
+    let autoRot = 0;
 
-    // 动画循环
     function animate() {
-      if (isTransitioning) {
-        particleSystem.scale.x += 0.1;
-        particleSystem.scale.y += 0.1;
-        particleSystem.scale.z += 0.1;
-        material.opacity -= 0.005;
-      } else {
-        particleSystem.rotation.x += 0.0005 + mouseVelocity * 0.0002;
-        particleSystem.rotation.y += 0.001 + mouseVelocity * 0.0004;
-        particleSystem.rotation.z += 0.0003 + mouseVelocity * 0.0001;
+      if (!showMain) {
+        if (!explode) {
+          if (mouseActive) {
+            currentRot.lerp(targetRot, 0.08);
+            const mag = Math.min(1, targetRot.length());
+            material.size = 0.18 + mag * 0.35;
+          } else {
+            autoRot += 0.0012;
+            currentRot.set(autoRot * 0.7, autoRot);
+            material.size = 0.18;
+          }
+          points.rotation.x = currentRot.x;
+          points.rotation.y = currentRot.y;
+
+          targetRot.multiplyScalar(0.96);
+          if (targetRot.length() < 0.001) mouseActive = false;
+        } else {
+          // 爆散阶段
+          explodeScale *= 1.015;
+          points.scale.setScalar(explodeScale);
+          material.opacity = Math.max(0, material.opacity - 0.01);
+        }
+
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
       }
-      material.size = 0.3 + mouseVelocity * 0.2;
-      material.opacity = Math.max(0, material.opacity);
-      mouseVelocity *= 0.95;
-      renderer.render(scene, camera);
-      requestAnimationFrame(animate);
     }
+
     animate();
 
-    // 清理函数，移除事件监听器和释放资源
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mousedown", handleMouseDown);
-      mountRef.current?.removeChild(renderer.domElement);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("resize", onResize);
+      if (
+        mountRef.current &&
+        renderer.domElement.parentNode === mountRef.current
+      ) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
       renderer.dispose();
+      geometry.dispose();
       material.dispose();
-      particles.dispose();
-      scene.remove(particleSystem);
+      scene.clear();
     };
-  }, [isTransitioning]);
+  }, [explode, ready, showMain]);
 
-  if (showSecondPage) {
-    return <SecondPage />;
+  const handleEnter = () => {
+    if (explode) return;
+    setFadeOut(true);
+    setTimeout(() => setExplode(true), 100);
+
+    setTimeout(() => {
+      setPageOpacity(0);
+    }, 200);
+
+    setTimeout(() => {
+      setShowMain(true);
+    }, 500);
+  };
+
+  // 还没判断完 hash 前，先不渲染，避免闪一下
+  if (!ready) {
+    return null;
   }
 
+  // 进入主页面（Hero + Work）
+  if (showMain) {
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <MainPage />
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
+
+  // Intro 粒子页
   return (
-    <>
-      <Head>
-        <title>shengtao.space | Home</title>
-        <meta name="description" content="Driven by Everything in Vagary with Mouse Interaction" />
-      </Head>
+    <motion.div
+      initial={{ opacity: 1 }}
+      animate={{ opacity: pageOpacity }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      style={{ position: "fixed", inset: 0 }}
+    >
       <div
         ref={mountRef}
+        onClick={handleEnter}
         style={{
-          width: "100vw",
-          height: "100vh",
           position: "fixed",
-          backgroundColor: "#000",
-          cursor: cursorStyle,
+          inset: 0,
+          background: "#000",
+          cursor: "pointer",
         }}
       />
+
       <AnimatePresence>
         {!fadeOut && (
           <motion.div
             initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.7 } }}
+            exit={{ opacity: 0, transition: { duration: 0.9 } }}
             style={{
-              position: "absolute",
+              position: "fixed",
               top: "50%",
               left: "50%",
-              transform: "translate(-50%, -50%)",
+              transform: "translate(-50%,-50%)",
               color: "#fff",
-              fontSize: "2.5rem",
-              fontWeight: "bold",
               textAlign: "center",
-              zIndex: 10,
+              zIndex: 2,
+              pointerEvents: "none",
             }}
           >
-            Shengtao. Space
-            <p style={{ fontSize: "1rem", opacity: 0.8 }}>
-              Driven by Everything in Vagary
-            </p>
+            <div
+              className="hero-title hero-700"
+              style={{
+                fontSize: "clamp(15px, 6vw, 38px)",
+                color: "#f5f5f5",
+                fontFamily:
+                  "var(--font-noto-sans), var(--font-noto-sans-sc), system-ui, -apple-system, 'Segoe UI', sans-serif",
+              }}
+            >
+              <span
+                lang="en"
+                style={{
+                  fontWeight: 500,
+                }}
+              >
+                Shengtao.Space
+              </span>
+            </div>
+
+            <div
+              style={{
+                fontSize: "clamp(10px, 2vw, 16px)",
+                fontWeight: 300,
+                opacity: 0.75,
+                marginTop: 16,
+                letterSpacing: "0.04em",
+                color: "rgba(255,255,255,.92)",
+                fontFamily:
+                  "var(--font-noto-sans), var(--font-noto-sans-sc), system-ui, -apple-system, 'Segoe UI', sans-serif",
+              }}
+            >
+              Click to enter
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </>
-  );
-}
-
-
-// 这是第二个界面
-function SecondPage() {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }} // 初始透明度为 0
-      animate={{ opacity: 1 }} // 过渡到完全可见
-      transition={{ duration: 1, ease: "easeInOut" }} // 1秒淡入动画
-      style={{
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "#000",
-        color: "#fff",
-        fontFamily: "Arial, sans-serif",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "start",
-        paddingTop: "4rem",
-      }}
-    >
-      {/* 顶部导航栏 */}
-      <nav
-        style={{
-          width: "90%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          position: "absolute",
-          top: "1rem",
-          left: "50%",
-          transform: "translateX(-50%)",
-        }}
-      >
-        <h3 style={{ fontSize: "1 rem", fontWeight: "bold" }}>Shengtao Shen</h3>
-        <div>
-          <a href="#" style={{ color: "#fff", margin: "0 1rem", textDecoration: "none" }}>About</a>
-          <a href="#" style={{ color: "#fff", margin: "0 1rem", textDecoration: "none" }}>Projects</a>
-          <a href="#" style={{ color: "#fff", margin: "0 1rem", textDecoration: "none" }}>Contact</a>
-        </div>
-      </nav>
-
-      {/* 主要介绍部分 */}
-      <div style={{ textAlign: "center", maxWidth: "800px", marginTop: "5rem" }}>
-        <h1 style={{ fontSize: "2.8rem", fontWeight: "bold", lineHeight: "1.3" }}>
-        Forging order from chaos<br /> 
-        Shaping the unseen into presence
-    
-        </h1>
-
-        {/* 叠加的视频背景 */}
-  <video
-    autoPlay
-    loop
-    muted
-    playsInline
-    style={{
-      position: "absolute",
-      top: "23%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: "100%",
-      maxWidth: "860px",
-      zIndex: 1, // 让它在文字背后
-      opacity: 0.3, // 透明度，确保不影响可读性
-      borderRadius: "10px", // 可选，给视频加一点弧度
-      maskImage: "linear-gradient(to bottom, black 10%, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
-    WebkitMaskImage: "linear-gradient(to bottom, black 10%, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
-    }}
-  >
-    <source src="/video.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "1rem",
-            opacity: 0.8,
-          }}
-        >
-          <span style={{ margin: "0 1rem" }}>MIT SA+P</span> |
-          <span style={{ margin: "0 1rem" }}>Harvard</span> 
-        </div>
-      </div>
-
-      {/* 标签筛选 */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "6rem",
-          gap: "1rem",
-        }}
-      >
-        {["All", "Featured", "Spatial", "Interaction", "Exhibition", "Interface", "Computation"].map((tag) => (
-  <span
-    key={tag}
-    style={{
-      padding: "0.5rem 1rem",
-      borderRadius: "20px",
-      border: "1px solid rgba(255, 255, 255, 0.5)", // 50% 透明度的白色边框
-      cursor: "pointer",
-      fontSize: "1rem",
-      color: "rgba(255, 255, 255, 0.6)", // 60% 透明度的文字
-      backgroundColor: "rgba(255, 255, 255, 0.1)", // 10% 透明度的背景
-      transition: "all 0.3s ease-in-out", // 让透明度变化更平滑
-    }}
-  >
-    #{tag}
-  </span>
-))}
-
-      </div>
-
-      {/* 项目展示 */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "1rem",
-          marginTop: "3rem",
-          width: "80%",
-        }}
-      >
-        <div
-          style={{
-            backgroundImage: "url('https://source.unsplash.com/random/400x300?technology')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            height: "200px",
-            borderRadius: "10px",
-          }}
-        ></div>
-        <div
-          style={{
-            backgroundImage: "url('https://source.unsplash.com/random/400x300?innovation')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            height: "200px",
-            borderRadius: "10px",
-          }}
-        ></div>
-        <div
-          style={{
-            backgroundImage: "url('https://source.unsplash.com/random/400x300?future')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            height: "200px",
-            borderRadius: "10px",
-          }}
-        ></div>
-        <div
-          style={{
-            backgroundImage: "url('https://source.unsplash.com/random/400x300?science')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            height: "200px",
-            borderRadius: "10px",
-          }}
-        ></div>
-      </div>
-      </motion.div>
+    </motion.div>
   );
 }

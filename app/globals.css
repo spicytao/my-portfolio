@@ -1,8 +1,539 @@
 /* app/globals.css */
+
+/* —— 系统变量 —— */
+:root {
+  --gap: clamp(16px, 2.2vw, 28px);
+  --max: 1160px;
+}
+
+/* —— 基础 reset —— */
+html,
+body {
+  min-height: 100%;
+  height: auto;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  padding: 0;
-  overflow: hidden; /* 避免出现滚动条 */
-  font-family: Arial, sans-serif;
-  background-color: #000;
+  background: #000000; /* 整站默认黑色背景 */
+  color: #111;
+  font: 300 16px/1.5 var(--font-noto-sans), var(--font-noto-sans-sc),
+    system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-y: auto; /* 允许滚动 */
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+/* 去掉按钮默认字体差异 */
+button {
+  font: inherit;
+}
+
+/* —— 黑色首屏（老样式，留着不影响现在）—— */
+.entry.simple {
+  position: relative;
+  height: 100vh;
+  min-height: 560px;
+  width: 100%;
+  background: #000;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  cursor: default;
+}
+
+.title h1 {
+  margin: 0;
+  font-size: clamp(32px, 6vw, 84px);
+  line-height: 1.04;
+  font-weight: 700;
+}
+
+.title .sub {
+  opacity: 0.85;
+  margin-top: 0.5rem;
+}
+
+.scrollcue {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 34px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+}
+
+.scrollcue:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  width: 4px;
+  height: 8px;
+  background: #fff;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  animation: cue 1.6s ease-in-out infinite;
+}
+
+@keyframes cue {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+}
+
+/* —— 白色内容区：用在 Work 区域 —— */
+/* 这里完全按你“原来的 css”数值来 */
+
+.wrap.white {
+  background: #ffffff;
+  color: #111;
+  padding: calc(var(--gap) * 1.5) var(--gap);
+}
+
+.section {
+  margin-top: calc(var(--gap) * 2.0);
+}
+
+.section h2 {
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888888;
+  margin: 0 0 0rem; /* 标题在左上，对齐项目栅格 */
+   margin-left: 15px; 
+}
+
+/* 让滚动到 #work 时，自动往下留出一截给顶部导航 */
+#work {
+  scroll-margin-top: 80px;  /* 80px 可以根据 topBar 高度微调，比如 64 / 72 */
+}
+/* —— 3 列项目封面：也是完全用你原来的设置 —— */
+
+.projects {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: 1fr;
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+@media (min-width: 720px) {
+  .projects {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .projects {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #eee;
+}
+
+.thumb img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.project-title {
+  margin: 12px 0 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* —— 顶部 Toolbar + About 页面 —— */
+/* 只在 /about 里用到的顶部栏，不会影响 HeroSimple 里的局部样式 */
+
+.topBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 50;
+
+  padding: 18px 40px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  color: #f7f7f7;
+  /* 上面略深，下面渐变透明，这样盖在视频或白背景上都好看 */
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0.4),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+.topBar-left {
+  font-weight: 500;
+}
+
+.topBar-right {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.topBar-link {
+  text-decoration: none;
+  border: none;
+  background: none;
+  padding: 0;
+  color: #f0f0f0;
+  cursor: pointer;
+  opacity: 0.82;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  font: inherit;
+}
+
+.topBar-link:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+/* About 页面的内容容器 */
+.pageShell {
+  padding-top: 0; /* 如果以后需要让下面内容整体下移，再改这里 */
+}
+
+.aboutPage {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 80px 24px 80px; /* 顶部留出空间给 fixed 的 topbar */
+  background: #ffffff;
+  color: #111111;
+  line-height: 1.7;
+}
+
+/* ===== ABOUT PAGE ===== */
+
+.aboutPage {
+  background: #000;
+  color: #fff;
+  min-height: 100vh;
+  padding-top: 30px;          /* 顶部导航高度 */
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+/* 第一屏整体 */
+.aboutHero {
+  min-height: 80vh;
+  padding: 30px 8vw 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 40px;
+}
+
+/* 顶部介绍和下面 tagline 共用同一个最大宽度 */
+.aboutHeroInner,
+.aboutHeroBottom {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* 左图右文，用 grid 固定列宽，避免文字被挤成一条细线 */
+.aboutHeroInner {
+  width: 100%;                          /* 吃满整个可用宽度 */
+  display: grid;
+  grid-template-columns: minmax(260px, 380px) minmax(520px, 1fr);
+  align-items: center;
+  column-gap: 6vw;                       /* 左图右文的间距 */
+}
+
+
+/* 左边卡片 */
+.aboutHeroCard {
+  display: flex;
+  justify-content: center;
+}
+
+.aboutHeroCardFrame {
+  width: 90%;
+  aspect-ratio: 3 / 5; /* 比例 3:5 */
+  transform: rotate(-10deg);
+  transform-origin: center;
+  filter: drop-shadow(0 25px 40px rgba(0, 0, 0, 0.8));
+}
+
+.aboutHeroCardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* 右边文字 */
+.aboutHeroText {
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 100%;
+  color: #d8d8d8;
+  font-weight: 500;
+  text-align: justify;
+}
+
+.aboutHeroText p + p {
+  margin-top: 1.4em;
+}
+
+.aboutEmail {
+  text-decoration: underline;
+  text-underline-offset: 3px; /* 可调，控制下划线和文字的距离 */
+}
+
+/* 下方 tagline 和介绍 */
+.aboutHeroBottom {
+  display: grid;
+  grid-template-columns: minmax(260px, 380px) minmax(520px, 1fr);
+  column-gap: 6vw;
+  row-gap: 0px;
+  margin-top: 10px;
+}
+
+.aboutHeroTagline {
+  grid-column: 1 / -1;  /* 从图片那列跨到右边文字那列 */
+  font-family: "DM Mono", ui-monospace, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 27px;
+  letter-spacing: 0.04em;
+  margin-bottom: -2px;
+  opacity: 0.9;
+}
+
+.aboutHeroDescription {
+  grid-column: 1 / -1;  /* 同样跨两列 */
+  font-size: 20px;
+  line-height: 1.8;
+  font-weight: 500;
+  color: #6c6c6c;
+}
+
+
+/* 底部箭头 */
+.aboutScrollArrow {
+  position: absolute;
+  left: 50%;
+  bottom: 40px;                 /* 高度你可以自己微调 */
+  transform: translateX(-50%);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* 外轮廓：像一个鼠标的外框 */
+.aboutScrollArrowIcon {
+  width: 28px;
+  height: 44px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  box-sizing: border-box;
+  padding-top: 8px;
+  position: relative;
+}
+
+/* 里面的小“滚轮”，做一个往下移动的动画 */
+.aboutScrollArrowIcon::after {
+  content: "";
+  width: 4px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  animation: scrollWheel 1.4s infinite;
+}
+
+@keyframes scrollWheel {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+}
+
+.aboutScrollArrow:hover .aboutScrollArrowIcon {
+  border-color: #ffffff;
+}
+
+
+/* 第二屏：奖项 */
+/* ===== ABOUT – AWARDS TABLE STYLE ===== */
+
+.aboutAwards {
+  padding: 80px 8vw 120px;
+  max-width: 100%;
+  margin: 0 auto;
+  background: #000;
+}
+
+.aboutAwardsTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.aboutAwardsTitle {
+  font-size: 24px;
+}
+
+.aboutAwardsMore {
+  font-size: 14px;
+  color: #dddddd;
+  text-decoration: none;
+}
+
+.aboutAwardsMore:hover {
+  text-decoration: underline;
+}
+
+/* 表头行 */
+.aboutAwardsHeadRow {
+  border-bottom: 1px solid #262626;
+  padding: 12px 0;
+  font-size: 14px;
+  color: #8f8f8f;
+}
+
+.aboutAwardsHeadCell {
+  font-weight: 500;
+}
+
+/* 表格主体容器 */
+.aboutAwardsTable {
+  border-bottom: 1px solid #262626;
+}
+
+/* 每一行：三列布局 + 细分割线 */
+.aboutAwardsRow {
+  display: grid;
+  grid-template-columns: minmax(0, 3.5fr) minmax(0, 1.2fr) minmax(100px, 0.7fr);
+  column-gap: 40px;
+  align-items: center;
+  padding: 18px 0;
+  border-top: 1px solid #262626; /* 每行之间那条细线 */
+  font-size: 15px;
+}
+
+/* 让整行可点击 */
+.aboutAwardsRow-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.aboutAwardsRow-link:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* 单元格 */
+.aboutAwardsCell-main {
+  /* 主列可以稍微粗一点 */
+  font-weight: 500;
+}
+
+.aboutAwardsCell {
+  white-space: nowrap;
+  overflow: hidden;
+  color: #ededed;
+  text-overflow: ellipsis;
+}
+
+/* 小屏时改成上下堆叠 */
+@media (max-width: 800px) {
+  .aboutAwardsRow {
+    grid-template-columns: 1fr;
+    row-gap: 6px;
+  }
+
+  .aboutAwardsCell {
+    white-space: normal;
+  }
+}
+
+
+/* ===== 响应式 ===== */
+@media (max-width: 900px) {
+  .aboutHero {
+    padding-top: 60px;
+  }
+
+  .aboutHeroInner {
+    grid-template-columns: 1fr;
+    row-gap: 40px;
+  }
+
+  .aboutHeroCard {
+    justify-content: flex-start;
+  }
+
+  .aboutHeroText {
+    font-size: 16px;
+    max-width: 100%;
+  }
+
+  .aboutHeroBottom {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutHeroTagline,
+  .aboutHeroDescription {
+    grid-column: 1;
+  }
+}
+
