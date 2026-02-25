@@ -32,12 +32,12 @@ const projects = [
     href: "/projects/4",
     desc: "Architectural performance that enacts the empty race for height, stacking a purposeless tower as today’s urban condition." 
   },
-  { 
+    /*{ 
     title: "Limina", 
     img: "/hero/5.jpg", 
     href: "/projects/5",
     desc: "Immersive light–water–sound environment where your movement ripples the room in real time." 
-  },
+  }, */
   { 
     title: "Trees with Amnesia", 
     img: "/hero/6.jpg", 
@@ -152,18 +152,19 @@ const projects = [
     href: "/projects/18",
     desc: "Urban food infrastructure linking cultivation and consumption, envisioning a post-agricultural city." 
   },
-  { 
+   
+  /* {
     title: "Stairscapes", 
     img: "/hero/19.jpg", 
     href: "/projects/19",
     desc: "Modular stair units forming chromatic micro-architectures where color and form coevolve." 
-  },
+  }, 
   { 
     title: "Warped Grid", 
     img: "/hero/20.jpg", 
     href: "/projects/20",
     desc: "Warped Cartesian lattice tracing spatial curvature and layered optical ambiguity in three dimensions." 
-  },
+  }*/,
   { 
     title: "Shio", 
     img: "/hero/21.jpg", 
