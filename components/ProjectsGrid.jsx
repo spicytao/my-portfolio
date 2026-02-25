@@ -43,6 +43,12 @@ const projects = [
     img: "/hero/6.jpg", 
     href: "/projects/6",
     desc: "Speculative documentary tracing a street tree’s fictional past through sliced terrains and projected time." 
+  },  
+  { 
+    title: "Framed Curvature", 
+    img: "/hero/7.jpg", 
+    href: "/projects/7",
+    desc: "Textile tension and planar panelization choreograph curvature into a frame-scripted surface." 
   },
   { 
     title: "Soft Exoskeleton", 
@@ -62,24 +68,27 @@ const projects = [
     href: "/projects/27",
     desc: "A performance garment that uses layered drape and fringe to extend the dancer’s body into space." 
   },
-  { 
-    title: "Framed Curvature", 
-    img: "/hero/7.jpg", 
-    href: "/projects/7",
-    desc: "Textile tension and planar panelization choreograph curvature into a frame-scripted surface." 
-  },
+
   { 
     title: "Empty Step", 
     img: "/hero/8.jpg", 
     href: "/projects/8",
     desc: "A non-functional stair that repeats into a spatial frame of suspended potential." 
+  },  
+  
+  { 
+    title: "The Seaport Saga", 
+    img: "/hero/17.jpg", 
+    href: "/projects/17",
+    desc: "Multiplayer strategy card game staging South Boston Seaport’s gentrification as a contested urban future. " 
   },
   { 
     title: "Folded Continuum", 
     img: "/hero/9.jpg", 
     href: "/projects/9",
     desc: "A scalar-ambiguous lattice grown from a single folded contour, oscillating between mesh and solid." 
-  },
+  },  
+
     { 
     title: "Air Vessel", 
     img: "/hero/28.jpg", 
@@ -140,12 +149,7 @@ const projects = [
     href: "/projects/16",
     desc: "Parasitic circulation sleeve subtly rewiring an MIT building while hiding within a continuous new skin." 
   },
-  { 
-    title: "The Seaport Saga", 
-    img: "/hero/17.jpg", 
-    href: "/projects/17",
-    desc: "Multiplayer strategy card game staging South Boston Seaport’s gentrification as a contested urban future. " 
-  },
+
   { 
     title: "Plant to Plate", 
     img: "/hero/18.jpg", 

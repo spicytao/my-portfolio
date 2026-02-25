@@ -125,7 +125,7 @@ export default function Project7Page() {
               }}
             >
               <div>4.118 Creative Computation</div>
-        
+              <div>Team: Zaynab Eltaib, Justin Wan, Shengtao Shen</div>
             </div>
 
             {/* 设计说明 */}
@@ -137,7 +137,6 @@ export default function Project7Page() {
                 color: "#b3b3b3ff",
                 maxWidth: "830px",
                 margin: "0 auto",
-            
               }}
             >
               Framed Curvature explores how a curved surface can be constructed from
@@ -155,7 +154,6 @@ export default function Project7Page() {
                 color: "#b3b3b3ff",
                 maxWidth: "830px",
                 margin: "18px auto 0",
-
               }}
             >
               A dark textile membrane is draped over this rigid “hard fabric,” both
@@ -329,7 +327,7 @@ export default function Project7Page() {
           height: 9px;
           border-top: 2px solid #868686ff;
           border-left: 2px solid #868686ff;
-          transform: rotate(-45deg) 
+          transform: rotate(-45deg) translate(2px, 0px);
         }
       `}</style>
     </>

@@ -111,6 +111,7 @@ export default function Project23Page() {
               {title}
             </h2>
 
+            {/* 副标题 & 团队信息 */}
             <div
               style={{
                 fontSize: "13px",
@@ -121,7 +122,10 @@ export default function Project23Page() {
                 margin: "0 auto 20px"
               }}
             >
-              Mapping Breath Between World and Body
+              <div>Mapping Breath Between World and Body</div>
+              <div style={{ marginTop: "4px" }}>
+                Team: Phyllis Cheung, Justin Wan, Shengtao Shen
+              </div>
             </div>
 
             <p
@@ -132,7 +136,6 @@ export default function Project23Page() {
                 color: "#7b7b7b",
                 maxWidth: "750px",
                 margin: "0 auto 18px",
-
               }}
             >
               We once mapped the world to keep it—rivers folded into lines,
@@ -149,7 +152,6 @@ export default function Project23Page() {
                 color: "#7b7b7b",
                 maxWidth: "750px",
                 margin: "0 auto 18px",
-
               }}
             >
               Outside, a continuous mirror acts as a self-developing plate.
@@ -168,7 +170,6 @@ export default function Project23Page() {
                 color: "#7b7b7b",
                 maxWidth: "750px",
                 margin: "0 auto 18px",
- 
               }}
             >
               A narrow slit leads within. Light lowers; hearing and smell rise.
@@ -186,7 +187,6 @@ export default function Project23Page() {
                 color: "#7b7b7b",
                 maxWidth: "750px",
                 margin: "0 auto 18px",
-
               }}
             >
               Outside records how the world passes through us; inside, how we
@@ -205,7 +205,6 @@ export default function Project23Page() {
                 color: "#7b7b7b",
                 maxWidth: "750px",
                 margin: "0 auto",
-
               }}
             >
               Built as bolted modules with recyclable frames and charred timber,

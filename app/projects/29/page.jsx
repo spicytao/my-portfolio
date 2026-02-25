@@ -107,11 +107,25 @@ export default function Project29Page() {
               style={{
                 fontSize: "30px",
                 fontWeight: 600,
-                marginBottom: "20px"
+                marginBottom: "16px"
               }}
             >
               {title}
             </h2>
+
+            {/* 团队信息 */}
+            <div
+              style={{
+                fontSize: "13px",
+                lineHeight: 1.6,
+                fontWeight: 400,
+                color: "#bfbfbf",
+                maxWidth: "800px",
+                margin: "0 auto 22px"
+              }}
+            >
+              <div>Team: Shengtao Shen, Yingru Zhao, Jia Zhong, Yifei Liang</div>
+            </div>
 
             <p
               style={{

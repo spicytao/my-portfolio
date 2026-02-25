@@ -93,87 +93,88 @@ export default function Project21Page() {
             padding: "64px 16px 80px"
           }}
         >
-        {/* 文本部分 */}
-<div
-  style={{
-    paddingTop: "16px",
-    paddingBottom: "40px",
-    textAlign: "center"
-  }}
->
-  <h2
-    style={{
-      fontSize: "30px",
-      fontWeight: 600,
-      marginBottom: "10px"
-    }}
-  >
-    Shio
-  </h2>
+          {/* 文本部分 */}
+          <div
+            style={{
+              paddingTop: "16px",
+              paddingBottom: "40px",
+              textAlign: "center"
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "30px",
+                fontWeight: 600,
+                marginBottom: "10px"
+              }}
+            >
+              Shio
+            </h2>
 
-  <div
-    style={{
-      fontSize: "13px",
-      lineHeight: 1.6,
-      fontWeight: 400,
-      color: "#bfbfbf",
-      maxWidth: "760px",
-      margin: "0 auto 20px"
-    }}
-  >
-    Waves that Caress the Quiet
-  </div>
+            {/* 副标题 & 合作信息 */}
+            <div
+              style={{
+                fontSize: "13px",
+                lineHeight: 1.6,
+                fontWeight: 400,
+                color: "#bfbfbf",
+                maxWidth: "760px",
+                margin: "0 auto 20px"
+              }}
+            >
+              <div>Waves that Caress the Quiet</div>
+              <div style={{ marginTop: "4px" }}>
+                In collaboration with Justin Wan
+              </div>
+            </div>
 
-  <p
-    style={{
-      fontSize: "14px",
-      lineHeight: 1.8,
-      fontWeight: 300,
-      color: "#7b7b7b",
-      maxWidth: "860px",
-      margin: "0 auto 18px",
+            <p
+              style={{
+                fontSize: "14px",
+                lineHeight: 1.8,
+                fontWeight: 300,
+                color: "#7b7b7b",
+                maxWidth: "860px",
+                margin: "0 auto 18px",
+              }}
+            >
+              After a day of work, when the fingers sink into warm water, Shio
+              turns the bathroom as quiet as the sound of the ebbing tide. The
+              flowing relief is shaped by the image of the receding sea: gentle
+              three-dimensional waves respond to the palm of the hand and the soles
+              of the feet with a faint resistance that gradually loosens the body.
+              Fine grooves hold a thin membrane of water that stretches into delicate
+              threads, guiding the flow as it slips and pools. When dry, the surface
+              is crisp to the touch; when wet, it becomes deep and velvety, filling
+              the space with a calm, tactile atmosphere. Glazes shift from sea-salt
+              blue to milky white in subtle gradations, catching light on the ridges,
+              sinking into the damp valleys, then drying into a soft shimmer like a
+              fragment of a wave in an ukiyo-e print.
+            </p>
 
-    }}
-  >
-    After a day of work, when the fingers sink into warm water, Shio
-    turns the bathroom as quiet as the sound of the ebbing tide. The
-    flowing relief is shaped by the image of the receding sea: gentle
-    three-dimensional waves respond to the palm of the hand and the soles
-    of the feet with a faint resistance that gradually loosens the body.
-    Fine grooves hold a thin membrane of water that stretches into delicate
-    threads, guiding the flow as it slips and pools. When dry, the surface
-    is crisp to the touch; when wet, it becomes deep and velvety, filling
-    the space with a calm, tactile atmosphere. Glazes shift from sea-salt
-    blue to milky white in subtle gradations, catching light on the ridges,
-    sinking into the damp valleys, then drying into a soft shimmer like a
-    fragment of a wave in an ukiyo-e print.
-  </p>
-
-  <p
-    style={{
-      fontSize: "14px",
-      lineHeight: 1.8,
-      fontWeight: 300,
-      color: "#7b7b7b",
-      maxWidth: "860px",
-      margin: "0 auto",
-
-    }}
-  >
-    Hexagonal modules can rotate freely, and their orientation gently
-    redirects the “tide” across the walls, greenery, and inside the
-    bathtub, connecting them in a single drawn gesture. Water scatters,
-    gathers, and finally comes to rest in quiet streams. The pieces are
-    easy to handle, keeping daily maintenance light while allowing nuanced
-    spatial compositions rather than dramatic effects. Through orientation,
-    rhythm, and the choreography of touch, water lingers a little longer
-    and the surface becomes softer and more intimate. In the evening, this
-    small ritual transforms bathing from a mere act of washing into a slow,
-    contemplative process—one that clarifies the mind as the waves of Shio
-    caress the silence.
-  </p>
-</div>
-
+            <p
+              style={{
+                fontSize: "14px",
+                lineHeight: 1.8,
+                fontWeight: 300,
+                color: "#7b7b7b",
+                maxWidth: "860px",
+                margin: "0 auto",
+              }}
+            >
+              Hexagonal modules can rotate freely, and their orientation gently
+              redirects the “tide” across the walls, greenery, and inside the
+              bathtub, connecting them in a single drawn gesture. Water scatters,
+              gathers, and finally comes to rest in quiet streams. The pieces are
+              easy to handle, keeping daily maintenance light while allowing nuanced
+              spatial compositions rather than dramatic effects. Through orientation,
+              rhythm, and the choreography of touch, water lingers a little longer
+              and the surface becomes softer and more intimate. In the evening, this
+              small ritual transforms bathing from a mere act of washing into a slow,
+              contemplative process—one that clarifies the mind as the waves of Shio
+              caress the silence.
+            </p>
+          </div>
 
           {/* 图片区域：全部竖排 */}
           <div style={{ marginTop: "8px" }}>
@@ -276,7 +277,7 @@ export default function Project21Page() {
           background: rgba(255, 255, 255, 0.9);
           display: flex;
           align-items: center;
-          justifyContent: center;
+          justify-content: center;
           cursor: pointer;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
           backdrop-filter: blur(4px);

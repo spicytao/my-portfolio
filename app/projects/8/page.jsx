@@ -126,6 +126,8 @@ export default function Project8Page() {
               }}
             >
               <div>4.151 Architecture Design Core Studio I</div>
+              <div>Team: Sima Akdurak, Samantha Eddy, Amelia Kenna, Shengtao Shen</div>
+              <div>The prototype idea comes from Constantinos Gallis</div>
             </div>
 
             {/* 副标题 */}
@@ -281,7 +283,7 @@ export default function Project8Page() {
           height: 9px;
           border-top: 2px solid #868686ff;
           border-left: 2px solid #868686ff;
-          transform: rotate(-45deg);
+          transform: rotate(-45deg) translate(2px, 0px);
         }
       `}</style>
     </>

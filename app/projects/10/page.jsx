@@ -112,7 +112,7 @@ export default function Project11Page() {
               {title}
             </h2>
 
-            {/* 副标题 & 奖项信息 */}
+            {/* 副标题 & 奖项 & 合作信息 */}
             <div
               style={{
                 fontSize: "13px",
@@ -127,6 +127,9 @@ export default function Project11Page() {
               <div style={{ marginTop: "4px" }}>
                 Excellence Award, 4th “Kengo Kuma & Higashikawa” KAGU Design
                 Competition
+              </div>
+              <div style={{ marginTop: "4px" }}>
+                In collaboration with Justin Wan
               </div>
             </div>
 
@@ -366,4 +369,3 @@ export default function Project11Page() {
     </>
   );
 }
-

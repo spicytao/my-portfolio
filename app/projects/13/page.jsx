@@ -128,6 +128,9 @@ export default function Project13Page() {
                 2023
               </div>
               <div style={{ marginTop: "4px" }}>
+                In collaboration with Yifei Liang
+              </div>
+              <div style={{ marginTop: "4px" }}>
                 <a
                   href="https://www.asla.org/2023studentawards/8339.html"
                   target="_blank"
@@ -151,7 +154,6 @@ export default function Project13Page() {
                 color: "#7b7b7b",
                 maxWidth: "880px",
                 margin: "0 auto 18px",
-  
               }}
             >
               As people suffer from the aftermath of gentrification—
@@ -169,7 +171,6 @@ export default function Project13Page() {
                 color: "#7b7b7b",
                 maxWidth: "880px",
                 margin: "0 auto",
-
               }}
             >
               By reconfiguring the existing heavy industrial area, introducing
