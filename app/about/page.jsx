@@ -63,13 +63,13 @@ export default function AboutPage() {
 
 <div className="aboutHeroText">
   <p>
-    I am a designer and researcher working at the intersection of architecture, interactive media, AI, and spatial computing. My practice focuses on how emerging technologies—augmented and mixed reality, real-time sensing, and digital fabrication—can be used to prototype new kinds of spatial interfaces and experiences rather than just new screens.
+    I am a designer and researcher working at the intersection of architecture, computational design, and artificial intelligence. My practice focuses on how emerging technologies—such as machine learning, real-time sensing, and algorithmic generation—can be synthesized with physical crafts like textile fabrication to prototype new kinds of intelligent and tactile spatial experiences.
   </p>
   <p>
-    Across installations, experimental structures, XR environments, and furniture-scale prototypes, I work end-to-end from concept and interaction flows to physical making and technical implementation. This has included projects realized in China, the United States, Japan, Slovenia, and New Zealand, often in collaboration with teams that span architecture, computation, and the arts. I am particularly interested in how tools from computer vision, machine learning, and responsive media can register and reshape the emotional memory of space.
+    Across experimental structures, soft installations, and interactive prototypes, I work end-to-end: from writing code and training models to physical weaving, material testing, and technical implementation. My work has been exhibited and realized in China, the United States, Japan, Slovenia, and New Zealand, often in collaboration with teams spanning architecture, computation, and the arts. I am deeply interested in how tools from computer vision and machine learning can move beyond the screen, embedding themselves into the material environment to register and reshape the emotional memory of a space.
   </p>
   <p>
-    I am currently based in Boston, pursuing my MArch at MIT and working along the boundaries of architecture, interactive systems, and cross-disciplinary art practice.
+    I am currently based in Boston, pursuing my MArch at MIT, and working along the boundaries of architecture, computational systems, and cross-disciplinary material art.
   </p>
 <p>
   Contact me:{' '}
